@@ -31,3 +31,12 @@ npm run build
 ## Repository
 
 https://github.com/Wendyywx/office-hours-bot
+
+## HW3 Scope and Non-goals
+
+The HW3 feature target is Story 4, Lecture Practice Set: create 3 to 5 questions from a named lecture and keep answers hidden until requested.
+
+- Real payments are a non-goal. Any payment flow is simulated.
+- Real authentication, including university sign-in, is a non-goal. The prototype uses a typed name.
+- A database and persistent storage are non-goals. The current conversation state is held in page memory and clears on reload. HW3 server-side in-memory data will reset on every deployment.
+- A real external AI service is not used in this prototype.

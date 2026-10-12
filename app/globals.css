@@ -308,6 +308,36 @@ progress::-moz-progress-bar {
     font-weight: 600;
 }
 
+.conversation-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mode-switch {
+    display: inline-flex;
+    gap: 3px;
+    padding: 3px;
+    border: 1px solid #dcd2e3;
+    background: #f2edf7;
+}
+
+.mode-switch [role="tab"] {
+    min-height: 32px;
+    padding: 0 12px;
+    border: 0;
+    background: transparent;
+    color: #655277;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.mode-switch [role="tab"][aria-selected="true"] {
+    background: #52366f;
+    color: #fff;
+}
+
 .new-conversation {
     padding: 9px 11px;
     border: 1px solid #dcd2e3;
@@ -327,6 +357,221 @@ progress::-moz-progress-bar {
 
 .new-conversation:hover {
     background: #f2edf7;
+}
+
+.practice-panel {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    padding: 27px 0 4px;
+}
+
+.practice-intro,
+.practice-complete {
+    width: min(650px, 100%);
+    margin: auto 0;
+}
+
+.practice-kicker {
+    margin: 0;
+    color: #78549a;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.practice-intro h3,
+.practice-complete h3 {
+    margin: 10px 0 9px;
+    color: #382b43;
+    font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.practice-description {
+    max-width: 560px;
+    margin: 0;
+    color: #726879;
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+.practice-source {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 21px;
+    padding: 12px 13px;
+    border: 1px solid #e2d9e8;
+    background: #f8f5fa;
+    color: #5c4b6c;
+    font-size: 10px;
+}
+
+.practice-source>span:first-child {
+    color: #8a6aa2;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.practice-source-separator {
+    color: #bd6b8f;
+}
+
+.practice-start {
+    margin-top: 19px;
+}
+
+.practice-progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.practice-score {
+    color: #766b7e;
+    font-size: 10px;
+}
+
+.practice-progress {
+    height: 5px;
+    margin-top: 10px;
+}
+
+.practice-session-source {
+    margin-top: 14px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.practice-question {
+    min-width: 0;
+    margin: 25px 0 17px;
+    padding: 0;
+    border: 0;
+}
+
+.practice-question legend {
+    width: 100%;
+    margin-bottom: 15px;
+    color: #382b43;
+    font-family: "Iowan Old Style", Baskerville, Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.practice-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.practice-option {
+    position: relative;
+    display: flex;
+    min-height: 56px;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 13px;
+    border: 1px solid #dfd6e6;
+    background: #fcf9fd;
+    color: #504458;
+    font-size: 11px;
+    line-height: 1.45;
+    cursor: pointer;
+}
+
+.practice-option:hover,
+.practice-option.selected {
+    border-color: #a98aba;
+    background: #f4edf8;
+}
+
+.practice-option:has(input:disabled) {
+    cursor: default;
+}
+
+.practice-option input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+}
+
+.practice-radio {
+    position: relative;
+    display: inline-grid;
+    width: 15px;
+    height: 15px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid #b9a9c5;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.practice-option input:checked+.practice-radio {
+    border-color: #684b82;
+}
+
+.practice-option input:checked+.practice-radio::after {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #684b82;
+    content: "";
+}
+
+.practice-option input:focus-visible+.practice-radio {
+    outline: 3px solid #bd6b8f;
+    outline-offset: 3px;
+}
+
+.practice-reveal {
+    margin: 2px 0 16px;
+    padding: 14px 15px;
+    border-left: 3px solid #bd6b8f;
+    background: #f7eff5;
+}
+
+.practice-reveal.is-correct {
+    border-left-color: #78549a;
+    background: #f3eef7;
+}
+
+.practice-result {
+    margin: 0;
+    color: #553d67;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.practice-explanation {
+    margin: 7px 0 0;
+    color: #655b6b;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.practice-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #e5dcea;
+}
+
+.practice-actions .ask-button:disabled {
+    background: #a69aac;
+    cursor: not-allowed;
 }
 
 .empty-state {
@@ -761,8 +1006,51 @@ progress::-moz-progress-bar {
         padding-bottom: 15px;
     }
 
+    .conversation-tools {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+    }
+
+    .mode-switch [role="tab"] {
+        min-height: 29px;
+        padding: 0 9px;
+        font-size: 10px;
+    }
+
     .conversation-header h2 {
         font-size: 23px;
+    }
+
+    .practice-panel {
+        min-height: 520px;
+        padding-top: 21px;
+    }
+
+    .practice-intro h3,
+    .practice-complete h3 {
+        font-size: 22px;
+    }
+
+    .practice-question {
+        margin-top: 21px;
+    }
+
+    .practice-question legend {
+        font-size: 19px;
+    }
+
+    .practice-options {
+        grid-template-columns: 1fr;
+        gap: 7px;
+    }
+
+    .practice-option {
+        min-height: 49px;
+    }
+
+    .practice-actions .ask-button {
+        justify-content: center;
     }
 
     .new-conversation {

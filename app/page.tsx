@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
+import PracticeSet from './practice-set';
 
 type Message = {
     role: 'student' | 'assistant';
@@ -117,6 +118,7 @@ export default function HomePage() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [formError, setFormError] = useState('');
     const [totalQuestions, setTotalQuestions] = useState(0);
+    const [activeMode, setActiveMode] = useState<'ask' | 'practice'>('ask');
 
     const submitQuestion = (submittedQuestion: string) => {
         const trimmedQuestion = submittedQuestion.trim();
@@ -220,102 +222,114 @@ export default function HomePage() {
                     <section className="conversation" aria-label="Course Q&A">
                         <div className="conversation-header">
                             <div>
-                                <p className="eyebrow">OFFICE HOURS <span>/</span> 01</p>
-                                <h2>Ask the course</h2>
+                                <p className="eyebrow">OFFICE HOURS <span>/</span> 70-445</p>
+                                <h2>{activeMode === 'ask' ? 'Ask the course' : 'Practice a lecture'}</h2>
                             </div>
-                            {messages.length > 0 ? (
-                                <button className="new-conversation" type="button" onClick={startNewConversation}>
-                                    <span aria-hidden="true">+</span> New conversation
-                                </button>
-                            ) : null}
+                            <div className="conversation-tools">
+                                <nav className="mode-switch" role="tablist" aria-label="Course activity">
+                                    <button type="button" role="tab" aria-selected={activeMode === 'ask'} onClick={() => setActiveMode('ask')}>Ask</button>
+                                    <button type="button" role="tab" aria-selected={activeMode === 'practice'} onClick={() => setActiveMode('practice')}>Practice</button>
+                                </nav>
+                                {activeMode === 'ask' && messages.length > 0 ? (
+                                    <button className="new-conversation" type="button" onClick={startNewConversation}>
+                                        <span aria-hidden="true">+</span> New conversation
+                                    </button>
+                                ) : null}
+                            </div>
                         </div>
 
-                        {messages.length === 0 ? (
-                            <div className="empty-state">
-                                <div className="welcome-line">
-                                    <span className="welcome-mark" aria-hidden="true">?</span>
-                                    <div>
-                                        <p className="welcome-label">WELCOME, {displayName.toUpperCase()}</p>
-                                        <h3>What are you working through?</h3>
-                                    </div>
-                                </div>
-                                <div className="prompt-heading">
-                                    <span>QUICK QUESTIONS</span>
-                                    <span className="prompt-count">03</span>
-                                </div>
-                                <div className="prompt-grid">
-                                    <button type="button" className="prompt-option" aria-label="Ask about late policy" onClick={() => submitQuestion('What is the late policy?')}>
-                                        <span className="prompt-number">01</span>
-                                        <span className="prompt-title">Late policy</span>
-                                        <span className="prompt-arrow" aria-hidden="true">↗</span>
-                                    </button>
-                                    <button type="button" className="prompt-option" aria-label="Ask about office hours" onClick={() => submitQuestion('When are office hours?')}>
-                                        <span className="prompt-number">02</span>
-                                        <span className="prompt-title">Office hours</span>
-                                        <span className="prompt-arrow" aria-hidden="true">↗</span>
-                                    </button>
-                                    <button type="button" className="prompt-option" aria-label="Ask about participation grade" onClick={() => submitQuestion('How much is participation worth?')}>
-                                        <span className="prompt-number">03</span>
-                                        <span className="prompt-title">Participation grade</span>
-                                        <span className="prompt-arrow" aria-hidden="true">↗</span>
-                                    </button>
-                                </div>
-                            </div>
+                        {activeMode === 'practice' ? (
+                            <PracticeSet />
                         ) : (
-                            <div className="chat-log" aria-live="polite">
-                                {messages.map((message, index) => (
-                                    <article key={`${message.role}-${index}`} className={`message ${message.role}`}>
-                                        {message.role === 'student' ? (
-                                            <>
-                                                <p className="message-label">{displayName} <span>• YOU</span></p>
-                                                <p className="message-text">{message.text}</p>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <p className="message-label assistant-label"><span className="assistant-mark">OH</span> OFFICE HOURS BOT</p>
-                                                <p className="message-text">{message.text}</p>
-                                                <p className="source-line"><span className="source-dot" /> <strong>Source</strong> {message.source}</p>
-                                            </>
-                                        )}
-                                    </article>
-                                ))}
-                            </div>
+                            <>
+                                {messages.length === 0 ? (
+                                    <div className="empty-state">
+                                        <div className="welcome-line">
+                                            <span className="welcome-mark" aria-hidden="true">?</span>
+                                            <div>
+                                                <p className="welcome-label">WELCOME, {displayName.toUpperCase()}</p>
+                                                <h3>What are you working through?</h3>
+                                            </div>
+                                        </div>
+                                        <div className="prompt-heading">
+                                            <span>QUICK QUESTIONS</span>
+                                            <span className="prompt-count">03</span>
+                                        </div>
+                                        <div className="prompt-grid">
+                                            <button type="button" className="prompt-option" aria-label="Ask about late policy" onClick={() => submitQuestion('What is the late policy?')}>
+                                                <span className="prompt-number">01</span>
+                                                <span className="prompt-title">Late policy</span>
+                                                <span className="prompt-arrow" aria-hidden="true">↗</span>
+                                            </button>
+                                            <button type="button" className="prompt-option" aria-label="Ask about office hours" onClick={() => submitQuestion('When are office hours?')}>
+                                                <span className="prompt-number">02</span>
+                                                <span className="prompt-title">Office hours</span>
+                                                <span className="prompt-arrow" aria-hidden="true">↗</span>
+                                            </button>
+                                            <button type="button" className="prompt-option" aria-label="Ask about participation grade" onClick={() => submitQuestion('How much is participation worth?')}>
+                                                <span className="prompt-number">03</span>
+                                                <span className="prompt-title">Participation grade</span>
+                                                <span className="prompt-arrow" aria-hidden="true">↗</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="chat-log" aria-live="polite">
+                                        {messages.map((message, index) => (
+                                            <article key={`${message.role}-${index}`} className={`message ${message.role}`}>
+                                                {message.role === 'student' ? (
+                                                    <>
+                                                        <p className="message-label">{displayName} <span>• YOU</span></p>
+                                                        <p className="message-text">{message.text}</p>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <p className="message-label assistant-label"><span className="assistant-mark">OH</span> OFFICE HOURS BOT</p>
+                                                        <p className="message-text">{message.text}</p>
+                                                        <p className="source-line"><span className="source-dot" /> <strong>Source</strong> {message.source}</p>
+                                                    </>
+                                                )}
+                                            </article>
+                                        ))}
+                                    </div>
+                                )}
+
+                                <form onSubmit={handleSubmit} className="question-form">
+                                    <div className="field-group">
+                                        <label htmlFor="studentName">Student name</label>
+                                        <input
+                                            id="studentName"
+                                            type="text"
+                                            value={studentName}
+                                            onChange={(event) => {
+                                                setStudentName(event.target.value);
+                                                if (formError) setFormError('');
+                                            }}
+                                            placeholder="Type your name"
+                                        />
+                                    </div>
+
+                                    <div className="field-group question-field">
+                                        <label htmlFor="question">Your question</label>
+                                        <textarea
+                                            id="question"
+                                            value={question}
+                                            onChange={(event) => {
+                                                setQuestion(event.target.value);
+                                                if (formError) setFormError('');
+                                            }}
+                                            rows={3}
+                                            maxLength={MAX_QUESTION_LENGTH}
+                                            placeholder="Ask about a course policy, concept, or deadline..."
+                                        />
+                                        <span className="character-count" aria-live="polite">{question.length} / {MAX_QUESTION_LENGTH}</span>
+                                    </div>
+
+                                    <button className="ask-button" type="submit">Ask question <span aria-hidden="true">↗</span></button>
+                                    {formError ? <p className="validation-message" role="alert">{formError}</p> : null}
+                                </form>
+                            </>
                         )}
-
-                        <form onSubmit={handleSubmit} className="question-form">
-                            <div className="field-group">
-                                <label htmlFor="studentName">Student name</label>
-                                <input
-                                    id="studentName"
-                                    type="text"
-                                    value={studentName}
-                                    onChange={(event) => {
-                                        setStudentName(event.target.value);
-                                        if (formError) setFormError('');
-                                    }}
-                                    placeholder="Type your name"
-                                />
-                            </div>
-
-                            <div className="field-group question-field">
-                                <label htmlFor="question">Your question</label>
-                                <textarea
-                                    id="question"
-                                    value={question}
-                                    onChange={(event) => {
-                                        setQuestion(event.target.value);
-                                        if (formError) setFormError('');
-                                    }}
-                                    rows={3}
-                                    maxLength={MAX_QUESTION_LENGTH}
-                                    placeholder="Ask about a course policy, concept, or deadline..."
-                                />
-                                <span className="character-count" aria-live="polite">{question.length} / {MAX_QUESTION_LENGTH}</span>
-                            </div>
-
-                            <button className="ask-button" type="submit">Ask question <span aria-hidden="true">↗</span></button>
-                            {formError ? <p className="validation-message" role="alert">{formError}</p> : null}
-                        </form>
                     </section>
                 </div>
             </div>

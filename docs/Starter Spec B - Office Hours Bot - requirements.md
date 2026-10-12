@@ -23,6 +23,15 @@ As a student, I want the bot to tell me when it cannot find enough information s
 **EARS:**  
 **IF** the retrieved course materials do not contain sufficient information to support an answer, **THE SYSTEM SHALL** state that the answer cannot be determined from the available course materials.
 
+### User Story 4 — Lecture Practice Set
+As a student, I want to create a short practice set from a named lecture so that I can check my understanding before reviewing the answers.
+
+**EARS:**
+
+**WHEN** a student requests a practice set for an available lecture, **THE SYSTEM SHALL** provide 3 to 5 questions based only on that lecture's approved materials and identify the lecture as the source.
+
+**WHEN** a student opens a practice set, **THE SYSTEM SHALL** keep each answer hidden until the student chooses to show it.
+
 ## 2. Data and Access
 
 The system stores the course syllabus, lecture slides, student questions, and generated responses; course materials are accessible only to authenticated course participants, while individual conversation histories are accessible only to the student and authorized course staff when necessary.
@@ -77,3 +86,10 @@ A potential gap is **prompt injection through uploaded course documents**. A mal
 
 **Additional EARS requirement:**  
 **IF** retrieved course content contains instructions attempting to override system permissions or security policies, **THE SYSTEM SHALL** treat those instructions as untrusted content and shall not execute them.
+
+## Scope for HW3
+
+- Build story 4: Lecture Practice Set.
+- No real payments. Where the spec says to charge a card, use a "Simulated payment" button and list real payments as a non-goal in the README.
+- No sign-in provider. Where the spec needs a signed-in user, use a name typed into a text box and list real authentication as a non-goal.
+- No database. Keep data in memory on the server and say in the README that it resets on every deploy.
