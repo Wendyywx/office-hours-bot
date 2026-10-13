@@ -68,7 +68,25 @@ const courseMaterials: CourseMaterial[] = [
     },
 ];
 
+const restrictedRequestPatterns = [
+    /\b(?:system|developer|hidden|internal)\s+(?:prompt|instructions?)\b/i,
+    /\b(?:private|confidential|graded)\b.{0,60}\b(?:exam|test|assignment|item|answers?|materials?)\b/i,
+    /\b(?:another|other)\s+student(?:['’]s)?\s+(?:questions?|chats?|messages?|conversations?)\b/i,
+    /\bsomeone\s+else(?:['’]s)?\s+(?:questions?|chats?|messages?|conversations?)\b/i,
+];
+
+function requestsRestrictedInformation(question: string) {
+    return restrictedRequestPatterns.some((pattern) => pattern.test(question));
+}
+
 function findAnswer(question: string) {
+    if (requestsRestrictedInformation(question)) {
+        return {
+            answer: "I can't reveal system instructions, private graded materials, or another student's information.",
+            source: 'No approved source found',
+        };
+    }
+
     const normalizedQuestion = question.toLowerCase();
     const questionWords = normalizedQuestion
         .split(/\s+/)
